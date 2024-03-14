@@ -124,6 +124,25 @@ class WeatherDataController extends AppController
         $this->set(compact('temperatureData'));
     }
     
+    public function filter($startDate = null, $endDate = null)
+    {
+        // Si no se proporcionan fechas, establecerlas en un rango predeterminado
+        $startDate = $this->request->getQuery('startDate');
+        $endDate = $this->request->getQuery('endDate');
+    
+        // Crea una consulta para obtener los datos meteorológicos dentro del rango de fechas
+        $weatherData = $this->WeatherData->find()
+            ->where(function ($exp, $q) use ($startDate, $endDate) {
+                return $exp->between('time', $startDate, $endDate);
+            })
+            ->toArray();
+    
+        // Pasa los datos a la vista
+        $this->set(compact('weatherData', 'startDate', 'endDate'));
+    }
+
+
+
 
 
 }
