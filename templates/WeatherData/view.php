@@ -35,5 +35,48 @@
     </ul>
     <p><a href="<?php echo $this->Url->build(['controller' => 'WeatherData', 'action' => 'index']); ?>">Volver a la lista de datos meteorológicos</a></p>
     <!-- Agrega tus enlaces a scripts JavaScript aquí -->
+
+    <canvas id="myChart" width="800" height="400"></canvas> 
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </html>
+
+<script>
+var data = <?php echo json_encode($data); ?>;
+
+// Filtrar solo los datos de luz
+var lightData = data.map(item => ({
+    label: item.time, // Puedes usar otro campo como etiqueta si lo prefieres
+    value: item.light // Usar solo el valor de la luz
+}));
+
+// Prepara los datos para el gráfico (suponiendo que los datos son en formato adecuado para Chart.js)
+var labels = lightData.map(item => item.label);
+var values = lightData.map(item => item.value);
+
+// Configura el gráfico
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Luz',
+            data: values,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>

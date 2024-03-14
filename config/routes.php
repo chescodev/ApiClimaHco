@@ -29,6 +29,7 @@ use Cake\Routing\RouteBuilder;
   * So you can use  `$this` to reference the application class instance
   * if required.
  */
+
 return function (RouteBuilder $routes): void {
     /*
      * The default class to use for all routes
@@ -48,6 +49,8 @@ return function (RouteBuilder $routes): void {
      * `{action}` markers.
      */
     $routes->setRouteClass(DashedRoute::class);
+
+    
 
     $routes->scope('/', function (RouteBuilder $builder): void {
         /*

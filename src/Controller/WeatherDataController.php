@@ -15,9 +15,9 @@ class WeatherDataController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+
     public function index()
     {
-        $weatherData = $this->paginate($this->WeatherData);
 
         $this->paginate = [
             'limit' => 10, // Número de registros por página
@@ -27,10 +27,6 @@ class WeatherDataController extends AppController
         // Obtener los datos meteorológicos paginados
         $weatherData = $this->paginate($this->WeatherData);
         
-        // Pasar los datos paginados a la vista
-        //$this->set(compact('weatherData'));
-
-
 
         $this->set(compact('weatherData'));
     }
@@ -44,11 +40,15 @@ class WeatherDataController extends AppController
      */
     public function view($id = null)
     {
+        $weatherDataTable = $this->getTableLocator()->get('WeatherData');
+
         $weatherData = $this->WeatherData->get($id, [
             'contain' => [],
         ]);
 
-        $this->set(compact('weatherData'));
+        $data = $weatherDataTable->find('all')->limit(5000)->toArray();
+
+        $this->set(compact('weatherData', 'data'));
     }
 
     /**
@@ -114,4 +114,16 @@ class WeatherDataController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function temperatureChartData() {
+        $temperatureData = $this->WeatherData->find()
+            ->select(['time', 'outdoor_temp'])
+            ->order(['time' => 'ASC'])
+            ->toArray();
+    
+        $this->set(compact('temperatureData'));
+    }
+    
+
+
 }
