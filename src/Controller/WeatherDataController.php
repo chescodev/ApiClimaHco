@@ -40,6 +40,7 @@ class WeatherDataController extends AppController
      */
     public function view($id = null)
     {
+        
         $weatherDataTable = $this->getTableLocator()->get('WeatherData');
 
         $weatherData = $this->WeatherData->get($id, [
@@ -49,7 +50,27 @@ class WeatherDataController extends AppController
         $data = $weatherDataTable->find('all')->limit(5000)->toArray();
 
         $this->set(compact('weatherData', 'data'));
+        
     }
+
+
+    public function filterByDates()
+    {
+        // Obtiene las fechas enviadas desde el formulario
+        $startDate = $this->request->getQuery('start_date');
+        $endDate = $this->request->getQuery('end_date');
+
+        // Realiza la consulta para obtener los datos dentro del rango de fechas especificado
+        $weatherData = $this->WeatherData->find()
+            ->where(['time BETWEEN :start AND :end'])
+            ->bind(':start', $startDate, 'date')
+            ->bind(':end', $endDate, 'date')
+            ->toArray();
+
+        // Pasa los datos y las fechas a la vista
+        $this->set(compact('weatherData', 'startDate', 'endDate'));
+    }
+
 
     /**
      * Add method
