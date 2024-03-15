@@ -10,29 +10,30 @@
 <body>
     <h1>Estación IHUANUCO2 </h1>
     <p>Lista de datos meteorológicos:</p>
-    <table>
+    <input type="text" id="datepicker" placeholder="Selecciona una fecha">
+    <table class="">
         <thead>
             <tr>
-                <th>Fecha y Hora</th>
-                <th>Intervalo</th>
-                <th>Temperatura Interior</th>
-                <th>Humedad Interior</th>
-                <th>Temperatura Exterior</th>
-                <th>Humedad Exterior</th>
-                <th>Presión Relativa</th>
-                <th>Presión Absoluta</th>
-                <th>Velociad del Viento</th>
-                <th>Ráfaga del Viento</th>
-                <th>Gust</th>
-                <th>Dirección del Viento</th>
-                <th>Punto de Rocío</th>
-                <th>Sensación Térmica</th>
-                <th>LLuvia Horaria</th>
-                <th>LLuvia Diaria</th>
-                <th>LLuvia Semanal</th>
-                <th>LLuvia Mensual</th>
-                <th>Índice de Luz</th>
-                <th>Índice UV</th>
+                <th> <div>Fecha y Hora</div></th>
+                <th> <div>Intervalo</div></th>
+                <!--<th> <div>Temperatura Interior</div></th>
+                <th> <div>Humedad Interior</div></th>-->
+                <th> <div>Temperatura Exterior</div></th>
+                <th> <div>Humedad Exterior</div></th>
+                <!-- <th> <div>Presión Relativa</div></th>
+                <th> <div>Presión Absoluta</div></th> -->
+                <th> <div>Velociad del Viento</div></th>
+                <th> <div>Ráfaga del Viento</div></th>
+                <th> <div>Gust</div></th>
+                <th> <div>Dirección del Viento</div></th>
+                <th> <div>Punto de Rocío</div></th>
+                <th> <div>Sensación Térmica</div></th>
+                <th> <div>Índice UV</div></th>
+                <th> <div>Índice de Luz</div></th>
+                <th> <div>LLuvia Horaria</div></th>
+                <th> <div>LLuvia Diaria</div></th>
+                <th> <div>LLuvia Semanal</div></th>
+                <th> <div>LLuvia Mensual</div></th>
             </tr>
         </thead>
         <tbody>
@@ -41,43 +42,75 @@
                 <tr>
                     <td><?php echo $data->time; ?></td>
                     <td><?php echo $data->intervalo; ?></td>
-                    <td><?php echo $data->indoor_temp; ?></td>
-                    <td><?php echo $data->indoor_hum; ?></td>
+                    <!-- $data->indoor_temp -->
+                    <!-- $data->indoor_hum -->
+
                     <td><?php echo $data->outdoor_temp; ?></td>
                     <td><?php echo $data->outdoor_hum; ?></td>
-                    <td><?php echo $data->rel_pres; ?></td>
-                    <td><?php echo $data->abs_pres; ?></td>
+
+                    <!--  $data->rel_pres -->
+                    <!--  $data->abs_pres -->
+
                     <td><?php echo $data->wind_speed; ?></td>
                     <td><?php echo $data->gust; ?></td>
                     <td><?php echo $data->wind_dir; ?></td>
                     <td><?php echo $data->dew_point; ?></td>
                     <td><?php echo $data->wind_chill; ?></td>
+                    <td><?php echo $data->uvi; ?></td>
+                    <td><?php echo $data->light; ?></td>
                     <td><?php echo $data->hour_rain; ?></td>
                     <td><?php echo $data->day_rain; ?></td>
                     <td><?php echo $data->week_rain; ?></td>
                     <td><?php echo $data->month_rain; ?></td>
-                    <td><?php echo $data->light; ?></td>
-                    <td><?php echo $data->uvi; ?></td>
-                    <!-- Agrega más celdas según las columnas de tu tabla clima -->
+                    <td></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <?php echo $this->Paginator->prev('« Anterior'); ?>
-    <?php echo $this->Paginator->numbers(); ?>
-    <?php echo $this->Paginator->next('Siguiente »'); ?>
+    <nav class="pagination">
+        <?php echo $this->Paginator->prev('« Anterior'); ?>
+        <?php echo $this->Paginator->numbers(); ?>
+        <?php echo $this->Paginator->next('Siguiente »'); ?>
+    </nav>
 
     <!-- Agrega tus enlaces a scripts JavaScript aquí -->
     <script src="scripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- jQuery UI (incluyendo el Datepicker) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
 
 </body>
 </html>
 
 <style>
+    table {
+        width: auto;
+        table-layout: fixed;
+        overflow-x: auto;
+    }
+
+    th {
+        padding: 8px;
+        min-width: 100px; /* Ancho mínimo para las columnas */
+    }
+
+    /* Estilo adicional para los encabezados */
+    th div {
+        display: block;
+    }
 
 
-
+    #datepicker {
+        width: 30%;
+    }
 </style>
 
 
+<script>
+    $( function() {
+        $( "#datepicker" ).datepicker();
+    } );
+</script>

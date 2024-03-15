@@ -20,7 +20,7 @@ class WeatherDataController extends AppController
     {
 
         $this->paginate = [
-            'limit' => 10, // Número de registros por página
+            'limit' => 100, // Número de registros por página
             'order' => ['time' => 'desc'] // Ordenar por fecha y hora descendente
         ];
     
