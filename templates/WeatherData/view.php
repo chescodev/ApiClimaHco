@@ -6,11 +6,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Weather Data</title>
-    <!-- Agrega tus enlaces a hojas de estilo CSS aquí -->
+    <?= $this->Html->css('style') ?>
 </head>
 <body>
     <h1>Weather Data</h1>
     <h2>Detalles del Dato Meteorológico</h2>
+
+    <span>
+        Selecciona la fecha
+    </span>
+
+    <form action="/WeatherData/filteredData" method="get">
+        <section>
+
+            <div>
+                <label for="startDate">Fecha de inicio:</label>
+                <input type="date" id="startDate" name="startDate" required><br><br>
+            </div>
+
+            <div>
+                <label for="endDate">Fecha de fin:</label>
+                <input type="date" id="endDate" name="endDate" required><br><br>
+            </div>
+
+        </section>
+        <button type="submit">Filtrar Datos</button>
+    </form>
+
+    <!--
     <ul>
         <li><strong>Fecha y Hora:</strong> <?php echo $weatherData->time; ?></li>
         <li><strong>Intervalo:</strong> <?php echo $weatherData->intervalo; ?></li>
@@ -33,6 +56,8 @@
         <li><strong>Índice UV:</strong> <?php echo $weatherData->uvi; ?></li>
         <!-- Agrega más detalles según las columnas de tu tabla clima -->
     </ul>
+
+    -->
     <p><a href="<?php echo $this->Url->build(['controller' => 'WeatherData', 'action' => 'index']); ?>">Volver a la lista de datos meteorológicos</a></p>
     <!-- Agrega tus enlaces a scripts JavaScript aquí -->
 
@@ -41,6 +66,13 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </html>
+
+
+<style>
+
+
+</style>
+
 
 <script>
 var data = <?php echo json_encode($data); ?>;

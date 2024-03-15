@@ -1,0 +1,10 @@
+section {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    align-content: center;
+}
+    
+#startDate,  #endDate{
+    max-width: 100%;
+}
