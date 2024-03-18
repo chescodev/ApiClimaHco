@@ -10,7 +10,18 @@
 <body>
     <h1>Estación IHUANUCO2 </h1>
     <p>Lista de datos meteorológicos:</p>
-    <input type="text" id="datepicker" placeholder="Selecciona una fecha">
+    <!-- Agrega este formulario al principio de tu vista index.php -->
+    <form action="<?= $this->Url->build(['action' => 'index']) ?>" method="get">
+        <div class="form-group">
+            <label for="startDate">Fecha de inicio:</label>
+            <input type="date" id="startDate" name="startDate" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="endDate">Fecha de fin:</label>
+            <input type="date" id="endDate" name="endDate" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <table class="">
         <thead>
             <tr>

@@ -3,6 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\I18n\FrozenDate;
+use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+use Cake\I18n\Date;
+use Cake\Database\Expression\QueryExpression;
+
 /**
  * WeatherData Controller
  *
@@ -51,24 +59,6 @@ class WeatherDataController extends AppController
 
         $this->set(compact('weatherData', 'data'));
         
-    }
-
-
-    public function filterByDates()
-    {
-        // Obtiene las fechas enviadas desde el formulario
-        $startDate = $this->request->getQuery('start_date');
-        $endDate = $this->request->getQuery('end_date');
-
-        // Realiza la consulta para obtener los datos dentro del rango de fechas especificado
-        $weatherData = $this->WeatherData->find()
-            ->where(['time BETWEEN :start AND :end'])
-            ->bind(':start', $startDate, 'date')
-            ->bind(':end', $endDate, 'date')
-            ->toArray();
-
-        // Pasa los datos y las fechas a la vista
-        $this->set(compact('weatherData', 'startDate', 'endDate'));
     }
 
 
@@ -135,35 +125,49 @@ class WeatherDataController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+ 
 
-    public function temperatureChartData() {
-        $temperatureData = $this->WeatherData->find()
-            ->select(['time', 'outdoor_temp'])
-            ->order(['time' => 'ASC'])
-            ->toArray();
-    
-        $this->set(compact('temperatureData'));
-    }
-    
-    public function filter($startDate = null, $endDate = null)
+    public function search()
     {
-        // Si no se proporcionan fechas, establecerlas en un rango predeterminado
-        $startDate = $this->request->getQuery('startDate');
-        $endDate = $this->request->getQuery('endDate');
-    
-        // Crea una consulta para obtener los datos meteorológicos dentro del rango de fechas
-        $weatherData = $this->WeatherData->find()
-            ->where(function ($exp, $q) use ($startDate, $endDate) {
-                return $exp->between('time', $startDate, $endDate);
-            })
-            ->toArray();
-    
-        // Pasa los datos a la vista
-        $this->set(compact('weatherData', 'startDate', 'endDate'));
+        $selectedDate = null;
+        $weatherData = [];
+
+        if ($this->request->is('post')) {
+            $selectedDate = $this->request->getData('selected_date');
+            // Realiza la búsqueda filtrando por la fecha seleccionada
+            $weatherData = $this->WeatherData->find()
+                ->where([
+                    'DATE(time)' => $selectedDate // Filtra por la fecha sin tener en cuenta la hora
+                ])
+                ->order(['time' => 'DESC']) // Opcional: ordena los resultados por fecha y hora descendente
+                ->toArray();
+        }
+
+        $this->set(compact('selectedDate', 'weatherData'));
     }
 
+    public function temperatureChartData()
+{
+    $temperatureData = $this->WeatherData->find()
+        ->select(['time', 'outdoor_temp'])
+        ->toArray();
 
+    $dailyTemperatures = [];
+    foreach ($temperatureData as $data) {
+        $date = $data->time->format('Y-m-d');
+        $dailyTemperatures[$date][] = $data->outdoor_temp;
+    }
 
+    $averageTemperatures = [];
+    foreach ($dailyTemperatures as $date => $temperatures) {
+        $averageTemperatures[$date] = array_sum($temperatures) / count($temperatures);
+    }
+
+    $labels = array_keys($averageTemperatures);
+    $data = array_values($averageTemperatures);
+
+    $this->set(compact('labels', 'data'));
+}
 
 
 }
