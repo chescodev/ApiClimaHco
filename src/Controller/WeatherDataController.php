@@ -171,3 +171,16 @@ class WeatherDataController extends AppController
 
 
 }
+
+
+/* 
+    *** TODO ***
+    * Arreglar etilos en todas las paginas
+    * Definir que paginas se usaran y no ir inventando en el camino
+    * Ver tema de graficos
+    * Agregar un segundo filtro por fechas
+    * Agregar login y register
+    * Ver si se puede reutilizar codigo con componentes
+    
+
+*/
