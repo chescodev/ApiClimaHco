@@ -151,28 +151,55 @@ class WeatherDataController extends AppController
 
     }
 
+
     public function temperatureChartData()
-{
-    $temperatureData = $this->WeatherData->find()
-        ->select(['time', 'outdoor_temp'])
-        ->toArray();
+    {
+        $temperatureData = $this->WeatherData->find()
+            ->select(['time', 'outdoor_temp'])
+            ->toArray();
 
-    $dailyTemperatures = [];
-    foreach ($temperatureData as $data) {
-        $date = $data->time->format('Y-m-d');
-        $dailyTemperatures[$date][] = $data->outdoor_temp;
+        $dailyTemperatures = [];
+        foreach ($temperatureData as $data) {
+            $date = $data->time->format('Y-m-d');
+            $dailyTemperatures[$date][] = $data->outdoor_temp;
+        }
+
+        $averageTemperatures = [];
+        foreach ($dailyTemperatures as $date => $temperatures) {
+            $averageTemperatures[$date] = array_sum($temperatures) / count($temperatures);
+        }
+
+        $labels = array_keys($averageTemperatures);
+        $data = array_values($averageTemperatures);
+
+        $this->set(compact('labels', 'data'));
     }
 
-    $averageTemperatures = [];
-    foreach ($dailyTemperatures as $date => $temperatures) {
-        $averageTemperatures[$date] = array_sum($temperatures) / count($temperatures);
+    public function lightChartData()
+    {
+        $lightData = $this->WeatherData->find()
+            ->select(['time', 'light'])
+            ->toArray();
+
+        $dailyLight = [];
+        foreach ($lightData as $data) {
+            $date = $data->time->format('Y-m-d');
+            $dailyLight[$date][] = $data->light;
+        }
+
+        $averageLight = [];
+        foreach ($dailyLight as $date => $lightValues) {
+            $averageLight[$date] = array_sum($lightValues) / count($lightValues);
+        }
+
+        $labels = array_keys($averageLight);
+        $data = array_values($averageLight);
+
+        $this->set(compact('labels', 'data'));
     }
 
-    $labels = array_keys($averageTemperatures);
-    $data = array_values($averageTemperatures);
 
-    $this->set(compact('labels', 'data'));
-}
+
 
 
 }
