@@ -48,7 +48,6 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Aquí puedes iterar sobre los datos meteorológicos y mostrarlos -->
             <?php foreach ($weatherData as $data): ?>
                 <tr>
                     <td><?php echo $data->time; ?></td>
@@ -69,6 +68,8 @@
                     <td><?php echo $data->wind_chill; ?></td>
                     <td><?php echo $data->uvi; ?></td>
                     <td><?php echo $data->light; ?></td>
+
+                    <!-- 
                     <td><?php echo $data->hour_rain; ?></td>
                     <td><?php echo $data->day_rain; ?></td>
                     <td><?php echo $data->week_rain; ?></td>

@@ -129,21 +129,26 @@ class WeatherDataController extends AppController
 
     public function search()
     {
-        $selectedDate = null;
+
+        $startDate = null;
+        $endDate = null;
         $weatherData = [];
 
         if ($this->request->is('post')) {
-            $selectedDate = $this->request->getData('selected_date');
-            // Realiza la búsqueda filtrando por la fecha seleccionada
+            $startDate = $this->request->getData('start_date');
+            $endDate = $this->request->getData('end_date');
+            
+            // Realiza la búsqueda filtrando por el intervalo de fechas seleccionado
             $weatherData = $this->WeatherData->find()
-                ->where([
-                    'DATE(time)' => $selectedDate // Filtra por la fecha sin tener en cuenta la hora
-                ])
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
                 ->order(['time' => 'DESC']) // Opcional: ordena los resultados por fecha y hora descendente
                 ->toArray();
         }
 
-        $this->set(compact('selectedDate', 'weatherData'));
+        $this->set(compact('startDate', 'endDate', 'weatherData'));
+
     }
 
     public function temperatureChartData()
@@ -184,3 +189,8 @@ class WeatherDataController extends AppController
     
 
 */
+
+
+
+
+
