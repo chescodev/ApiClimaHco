@@ -130,51 +130,102 @@ class WeatherDataController extends AppController
     public function search()
     {
 
-        $startDate = null;
-        $endDate = null;
+        $startDateTable = null;
+        $endDateTable = null;
         $weatherData = [];
 
         if ($this->request->is('post')) {
-            $startDate = $this->request->getData('start_date');
-            $endDate = $this->request->getData('end_date');
+            $startDateTable = $this->request->getData('start_date_table');
+            $endDateTable = $this->request->getData('end_date_table');
             
             // Realiza la búsqueda filtrando por el intervalo de fechas seleccionado
             $weatherData = $this->WeatherData->find()
-                ->where(function ($exp, $q) use ($startDate, $endDate) {
-                    return $exp->between('time', $startDate, $endDate, 'date');
+                ->where(function ($exp, $q) use ($startDateTable, $endDateTable) {
+                    return $exp->between('time', $startDateTable, $endDateTable, 'date');
                 })
                 ->order(['time' => 'DESC']) // Opcional: ordena los resultados por fecha y hora descendente
                 ->toArray();
         }
 
-        $this->set(compact('startDate', 'endDate', 'weatherData'));
+        $this->set(compact('startDateTable', 'endDateTable', 'weatherData'));
 
     }
 
-
-    public function temperatureChartData()
+    public function graphics()
     {
-        $temperatureData = $this->WeatherData->find()
+        $startDate = null;
+        $endDate = null;
+        $lightData = [];
+        $uviData = [];
+        $outTempData = [];
+    
+        if ($this->request->is('post')) {
+            $startDate = $this->request->getData('start_date');
+            $endDate = $this->request->getData('end_date');
+            
+            // Consultar los datos de luz filtrados por las fechas proporcionadas
+            $lightData = $this->WeatherData->find()
+                ->select(['time', 'light'])
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
+                ->order(['time' => 'ASC'])
+                ->toArray();
+    
+            // Consultar los datos de UVI filtrados por las fechas proporcionadas
+            $uviData = $this->WeatherData->find()
+                ->select(['time', 'uvi'])
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
+                ->order(['time' => 'ASC'])
+                ->toArray();
+
+            $outTempData = $this->WeatherData->find()
             ->select(['time', 'outdoor_temp'])
+            ->where(function ($exp, $q) use ($startDate, $endDate) {
+                return $exp->between('time', $startDate, $endDate, 'date');
+            })
+            ->order(['time'=> 'ASC'])
             ->toArray();
-
-        $dailyTemperatures = [];
-        foreach ($temperatureData as $data) {
-            $date = $data->time->format('Y-m-d');
-            $dailyTemperatures[$date][] = $data->outdoor_temp;
+        }
+        
+        // Procesar los datos de luz para el gráfico
+        $lightLabels = [];
+        $lightValues = [];
+        foreach ($lightData as $data) {
+            $lightLabels[] = $data->time->format('Y-m-d');
+            $lightValues[] = $data->light;
+        }
+    
+        // Procesar los datos de UVI para el gráfico
+        $uviLabels = [];
+        $uviValues = [];
+        foreach ($uviData as $data) {
+            $uviLabels[] = $data->time->format('Y-m-d');
+            $uviValues[] = $data->uvi;
         }
 
-        $averageTemperatures = [];
-        foreach ($dailyTemperatures as $date => $temperatures) {
-            $averageTemperatures[$date] = array_sum($temperatures) / count($temperatures);
+        $outTempLabels = [];
+        $outTempValues = [];
+        foreach ($outTempData as $data) {
+            $outTempLabels[] = $data->time->format('Y-m-d');
+            $outTempValues[] = $data->outdoor_temp;
         }
-
-        $labels = array_keys($averageTemperatures);
-        $data = array_values($averageTemperatures);
-
-        $this->set(compact('labels', 'data'));
+    
+        $this->set(compact('startDate', 'endDate', 'lightLabels', 'lightValues', 'uviLabels', 'uviValues', 'outTempLabels', 'outTempValues'));
     }
+    
+    
+    
 
+
+    
+    
+    
+
+
+    /*
     public function lightChartData()
     {
         $lightData = $this->WeatherData->find()
@@ -196,10 +247,7 @@ class WeatherDataController extends AppController
         $data = array_values($averageLight);
 
         $this->set(compact('labels', 'data'));
-    }
-
-
-
+    }*/
 
 
 }
