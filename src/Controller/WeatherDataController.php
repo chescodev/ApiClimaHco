@@ -158,6 +158,10 @@ class WeatherDataController extends AppController
         $lightData = [];
         $uviData = [];
         $outTempData = [];
+        $dewPointData = [];
+        $windSpeedData = [];
+        $windGustData = [];
+        $windDirectionData = [];
     
         if ($this->request->is('post')) {
             $startDate = $this->request->getData('start_date');
@@ -188,6 +192,42 @@ class WeatherDataController extends AppController
             })
             ->order(['time'=> 'ASC'])
             ->toArray();
+            
+            // Consultar los datos de punto de rocío filtrados por las fechas proporcionadas
+            $dewPointData = $this->WeatherData->find()
+            ->select(['time', 'dew_point'])
+            ->where(function ($exp, $q) use ($startDate, $endDate) {
+                return $exp->between('time', $startDate, $endDate, 'date');
+            })
+            ->order(['time'=> 'ASC'])
+            ->toArray();
+
+            // Consultar los datos de velocidad del viento filtrados por las fechas proporcionadas
+            $windSpeedData = $this->WeatherData->find()
+                ->select(['time', 'wind_speed'])
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
+                ->order(['time'=> 'ASC'])
+                ->toArray();
+
+            // Consultar los datos de ráfaga del viento filtrados por las fechas proporcionadas
+            $windGustData = $this->WeatherData->find()
+                ->select(['time', 'gust'])
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
+                ->order(['time'=> 'ASC'])
+                ->toArray();
+
+            // Consultar los datos de dirección del viento filtrados por las fechas proporcionadas
+            $windDirectionData = $this->WeatherData->find()
+                ->select(['time', 'wind_dir'])
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
+                ->order(['time'=> 'ASC'])
+                ->toArray();
         }
         
         // Procesar los datos de luz para el gráfico
@@ -212,8 +252,41 @@ class WeatherDataController extends AppController
             $outTempLabels[] = $data->time->format('Y-m-d');
             $outTempValues[] = $data->outdoor_temp;
         }
+
+        // Procesar los datos de punto de rocío para el gráfico
+        $dewPointLabels = [];
+        $dewPointValues = [];
+        foreach ($dewPointData as $data) {
+            $dewPointLabels[] = $data->time->format('Y-m-d');
+            $dewPointValues[] = $data->dew_point;
+        }
+
+        // Procesar los datos de velocidad del viento para el gráfico
+        $windSpeedLabels = [];
+        $windSpeedValues = [];
+        foreach ($windSpeedData as $data) {
+            $windSpeedLabels[] = $data->time->format('Y-m-d');
+            $windSpeedValues[] = $data->wind_speed;
+        }
+
+        // Procesar los datos de ráfaga del viento para el gráfico
+        $windGustLabels = [];
+        $windGustValues = [];
+        foreach ($windGustData as $data) {
+            $windGustLabels[] = $data->time->format('Y-m-d');
+            $windGustValues[] = $data->gust;
+        }
+
+        // Procesar los datos de dirección del viento para el gráfico
+        $windDirectionLabels = [];
+        $windDirectionValues = [];
+        foreach ($windDirectionData as $data) {
+            $windDirectionLabels[] = $data->time->format('Y-m-d');
+            $windDirectionValues[] = $data->wind_dir;
+        }
+
     
-        $this->set(compact('startDate', 'endDate', 'lightLabels', 'lightValues', 'uviLabels', 'uviValues', 'outTempLabels', 'outTempValues'));
+        $this->set(compact('startDate', 'endDate', 'lightLabels', 'lightValues', 'uviLabels', 'uviValues', 'outTempLabels', 'outTempValues', 'dewPointLabels', 'dewPointValues', 'windSpeedLabels', 'windSpeedValues', 'windGustLabels', 'windGustValues', 'windDirectionLabels', 'windDirectionValues')); 
     }
     
     

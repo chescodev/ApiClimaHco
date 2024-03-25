@@ -21,10 +21,38 @@
             </div>
             <?= $this->Form->submit('Mostrar Gráfico', ['class' => 'btn btn-primary']) ?>
         <?= $this->Form->end() ?>
-
-        <canvas id="lightChart" width="400" height="200"></canvas>
-        <canvas id="uviChart" width="400" height="200"></canvas>
+        
+        <div class="row">
+    <div class="col-md-6">
         <canvas id="outTempChart" width="400" height="200"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="dewPointChart" width="400" height="200"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="windSpeedChart" width="400" height="200"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="windGustChart" width="400" height="200"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="windDirectionChart" width="400" height="200"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="lightChart" width="400" height="200"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="uviChart" width="400" height="200"></canvas>
+    </div>
+    <!-- Dejar el otro canvas hidden en esta fila -->
+</div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -89,6 +117,109 @@
                 data: <?= json_encode($outTempValues) ?>,
                 backgroundColor: 'rgb(60, 179, 113)',
                 borderColor: 'rgb(60, 179, 113)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+<script>
+    var ctxDewPoint = document.getElementById('dewPointChart').getContext('2d');
+    var dewPointChart = new Chart(ctxDewPoint, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($dewPointLabels) ?>,
+            datasets: [{
+                label: 'Punto de rocío',
+                data: <?= json_encode($dewPointValues) ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+<script>
+    var ctxWindSpeed = document.getElementById('windSpeedChart').getContext('2d');
+    var windSpeedChart = new Chart(ctxWindSpeed, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($windSpeedLabels) ?>,
+            datasets: [{
+                label: 'Velocidad del viento',
+                data: <?= json_encode($windSpeedValues) ?>,
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+<script>
+    var ctxWindGust = document.getElementById('windGustChart').getContext('2d');
+    var windGustChart = new Chart(ctxWindGust, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($windGustLabels) ?>,
+            datasets: [{
+                label: 'Ráfagas de viento',
+                data: <?= json_encode($windGustValues) ?>,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+<script>
+    var ctxWindDirection = document.getElementById('windDirectionChart').getContext('2d');
+    var windDirectionChart = new Chart(ctxWindDirection, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($windDirectionLabels) ?>,
+            datasets: [{
+                label: 'Dirección del viento',
+                data: <?= json_encode($windDirectionValues) ?>,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
                 borderWidth: 1
             }]
         },
