@@ -143,7 +143,7 @@ class WeatherDataController extends AppController
                 ->where(function ($exp, $q) use ($startDateTable, $endDateTable) {
                     return $exp->between('time', $startDateTable, $endDateTable, 'date');
                 })
-                ->order(['time' => 'DESC']) // Opcional: ordena los resultados por fecha y hora descendente
+                ->order(['time' => 'ASC']) // Opcional: ordena los resultados por fecha y hora descendente
                 ->toArray();
         }
 
@@ -162,6 +162,9 @@ class WeatherDataController extends AppController
         $windSpeedData = [];
         $windGustData = [];
         $windDirectionData = [];
+        $absPresData = [];
+        $dayRainData = [];
+
     
         if ($this->request->is('post')) {
             $startDate = $this->request->getData('start_date');
@@ -228,6 +231,22 @@ class WeatherDataController extends AppController
                 })
                 ->order(['time'=> 'ASC'])
                 ->toArray();
+
+            $absPresData = $this->WeatherData->find()
+            ->select(['time','abs_pres'])
+            ->where(function ($exp, $q) use ($startDate, $endDate) {
+                return $exp->between('time', $startDate, $endDate, 'date');
+            })
+            ->order(['time'=> 'ASC'])
+            ->toArray();
+
+            $dayRainData = $this->WeatherData->find()
+            ->select(['time','hour_rain'])
+            ->where(function ($exp, $q) use ($startDate, $endDate) {
+                return $exp->between('time', $startDate, $endDate, 'date');
+            })
+            ->order(['time'=> 'ASC'])
+            ->toArray();
         }
         
         // Procesar los datos de luz para el gráfico
@@ -285,14 +304,88 @@ class WeatherDataController extends AppController
             $windDirectionValues[] = $data->wind_dir;
         }
 
+        $absPresLabels = [];
+        $absPresValues = [];
+        foreach ($absPresData as $data) {
+            $absPresLabels[] = $data->time->format('Y-m-d');
+            $absPresValues[] = $data->abs_pres;
+        }
+
+        $dayRainLabels = [];
+        $dayRainValues = [];
+        foreach ($dayRainData as $data) {
+            $dayRainLabels[] = $data->time->format('Y-m-d');
+            $dayRainValues[] = $data->hour_rain;
+        }
     
-        $this->set(compact('startDate', 'endDate', 'lightLabels', 'lightValues', 'uviLabels', 'uviValues', 'outTempLabels', 'outTempValues', 'dewPointLabels', 'dewPointValues', 'windSpeedLabels', 'windSpeedValues', 'windGustLabels', 'windGustValues', 'windDirectionLabels', 'windDirectionValues')); 
+        $this->set(compact('startDate', 'endDate', 'lightLabels', 'lightValues', 'uviLabels', 'uviValues', 'outTempLabels', 'outTempValues', 'dewPointLabels', 'dewPointValues', 'windSpeedLabels', 'windSpeedValues', 'windGustLabels', 'windGustValues', 'windDirectionLabels', 'windDirectionValues', 'absPresLabels', 'absPresValues', 'dayRainLabels', 'dayRainValues')); 
     }
     
+
+    public function light() {
+        $startDateLight = null;
+        $endDateLight = null;
+        $lightData = [];
     
+        if ($this->request->is('post')) {
+            $startDateLight = $this->request->getData('start_date_light');
+            $endDateLight = $this->request->getData('end_date_light');
+            
+            $lightData = $this->WeatherData->find() // Reemplaza "LightData" con el modelo correspondiente para tus datos de luz
+                ->where(function ($exp, $q) use ($startDateLight, $endDateLight) {
+                    return $exp->between('time', $startDateLight, $endDateLight, 'date');
+                })
+                ->order(['time' => 'ASC']) 
+                ->toArray();
+        }
+    
+        $lightLabels = [];
+        $lightValues = [];
+        foreach ($lightData as $data) {
+            $lightLabels[] = $data->time->format('Y-m-d H:i:s');
+            $lightValues[] = $data->light;
+        }
+    
+        $this->set(compact('startDateLight', 'endDateLight', 'lightLabels', 'lightValues', 'lightData'));
+    }
+
+    public function display() {
+        $startDate = null;
+        $endDate = null;
+        $selectedDataType = null;
+        $data = [];
+        $dataLabels = [];
+        $dataValues = [];
+    
+        if ($this->request->is('post')) {
+            $startDate = $this->request->getData('start_date');
+            $endDate = $this->request->getData('end_date');
+            $selectedDataType = $this->request->getData('data_type');
+    
+            $data = $this->WeatherData->find()
+                ->where(function ($exp, $q) use ($startDate, $endDate) {
+                    return $exp->between('time', $startDate, $endDate, 'date');
+                })
+                ->order(['time' => 'ASC'])
+                ->toArray();
+    
+            foreach ($data as $item) {
+                $dataLabels[] = $item->time->format('Y-m-d H:i:s');
+                $dataValues[] = $item->$selectedDataType;
+            }
+        }
+    
+        // Obtener los nombres de los campos disponibles para el combo box
+        $fields = $this->WeatherData->getSchema()->columns();
+        $dataTypes = array_combine($fields, $fields);
+    
+        $this->set(compact('startDate', 'endDate', 'selectedDataType', 'dataLabels', 'dataValues', 'data', 'dataTypes'));
+    }
     
 
-
+    
+    
+    
     
     
     

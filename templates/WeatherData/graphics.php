@@ -8,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+    <nav>
+        LINK HACIA OTROS LUGARES
+    </nav>
+
+
     <div class="container">
         <h2>Gráficos de Luz</h2>
         <?= $this->Form->create(null, ['url' => ['action' => 'graphics'], 'class' => 'date-picker']) ?>
@@ -23,36 +28,42 @@
         <?= $this->Form->end() ?>
         
         <div class="row">
-    <div class="col-md-6">
-        <canvas id="outTempChart" width="400" height="200"></canvas>
-    </div>
-    <div class="col-md-6">
-        <canvas id="dewPointChart" width="400" height="200"></canvas>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <canvas id="windSpeedChart" width="400" height="200"></canvas>
-    </div>
-    <div class="col-md-6">
-        <canvas id="windGustChart" width="400" height="200"></canvas>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <canvas id="windDirectionChart" width="400" height="200"></canvas>
-    </div>
-    <div class="col-md-6">
-        <canvas id="lightChart" width="400" height="200"></canvas>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <canvas id="uviChart" width="400" height="200"></canvas>
-    </div>
-    <!-- Dejar el otro canvas hidden en esta fila -->
-</div>
-
+            <div class="col-md-6">
+                <canvas id="outTempChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="dewPointChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="windSpeedChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="windGustChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="windDirectionChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="lightChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="uviChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="absPresChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="dayRainChart" width="400" height="200"></canvas>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -234,5 +245,58 @@
         }
     });
 </script>
+
+<script>
+    var ctxAbsPres = document.getElementById('absPresChart').getContext('2d');
+    var absPresChart = new Chart(ctxAbsPres, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($absPresLabels) ?>,
+            datasets: [{
+                label: 'Presión Atmosférica',
+                data: <?= json_encode($absPresValues) ?>,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+<script>
+    var ctxDayRain = document.getElementById('dayRainChart').getContext('2d');
+    var dayRainChart = new Chart(ctxDayRain, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($dayRainLabels) ?>,
+            datasets: [{
+                label: 'Lluvia diaria',
+                data: <?= json_encode($dayRainValues) ?>,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

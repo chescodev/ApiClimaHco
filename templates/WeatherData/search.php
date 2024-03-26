@@ -10,14 +10,17 @@
 
 </head>
 <body>
+
+
+
 <?= $this->Form->create(null, ['url' => ['action' => 'search'], 'class' => 'date-picker']) ?>
         <div class="form-group">
-            <label for="start_date">Fecha de Inicio:</label>
-            <?= $this->Form->input('start_date', ['type' => 'date', 'class' => 'form-control']) ?>
+            <label for="startDateTable">Fecha de Inicio:</label>
+            <?= $this->Form->input('start_date_table', ['type' => 'date', 'class' => 'form-control']) ?>
         </div>
         <div class="form-group">
-            <label for="end_date">Fecha de Fin:</label>
-            <?= $this->Form->input('end_date', ['type' => 'date', 'class' => 'form-control']) ?>
+            <label for="endDateTable">Fecha de Fin:</label>
+            <?= $this->Form->input('end_date_table', ['type' => 'date', 'class' => 'form-control']) ?>
         </div>
         <?= $this->Form->submit('Buscar', ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
@@ -25,7 +28,7 @@
 
 
 <?php if (!empty($weatherData)) : ?>
-    <h3>Datos del <?= $selectedDate ?></h3>
+    <h3>Datos del <?= $startDateTable ?> al <?= $endDateTable ?></h3>
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr class="header">
@@ -39,13 +42,13 @@
                 <th scope="col"> Dirección del Viento</th>
                 <th scope="col"> Punto de Rocío</th>
                 <th scope="col"> Sensación Térmica</th> 
-
-                <th scope="col">Índice UV</th>
-                <th scope="col">Índice de luz</th>
+                <th scope="col"> Presión Atmosférica</th>
+                <th scope="col"> Índice UV</th>
+                <th scope="col"> Índice de luz</th>
+                <th scope="col"> LLuvia Horaria</th>
 
                 <!--
 
-                <th scope="col"> LLuvia Horaria</th>
                 <th scope="col"> LLuvia Diaria</th>
                 <th scope="col"> LLuvia Semanal</th>
                 <th scope="col"> LLuvia Mensual</th>
@@ -65,9 +68,11 @@
                     <td><?php echo $data->wind_dir; ?></td>
                     <td><?php echo $data->dew_point; ?> °C</td>
                     <td><?php echo $data->wind_chill; ?> °C</td>
+                    <td><?php echo $data->abs_pres; ?> </td>
     
-                    <td><?php echo $data->uvi; ?> lux</td>
-                    <td><?php echo $data->light; ?> </td>
+                    <td><?php echo $data->uvi; ?> uvi</td>
+                    <td><?php echo $data->light; ?>lux </td>
+                    <td><?php echo $data->hour_rain; ?></td>
     
                     <!-- $data->hour_rain
                         $data->day_rain
