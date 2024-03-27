@@ -377,7 +377,31 @@ class WeatherDataController extends AppController
     
         // Obtener los nombres de los campos disponibles para el combo box
         $fields = $this->WeatherData->getSchema()->columns();
-        $dataTypes = array_combine($fields, $fields);
+
+        // Eliminar los campos que no necesito
+        $fieldsToRemove = ['id', 'intervalo', 'time', 'indoor_temp', 'indoor_hum', 'rel_pres', 'day_rain', 'week_rain', 'month_rain'];
+        $fields = array_diff($fields, $fieldsToRemove);
+
+        $labels = [
+            'outdoor_temp' => 'Temperatura',
+            'outdoor_hum' => 'Humedad',
+            'abs_pres' => 'Presión Atmosférica',
+            'wind_speed' => 'Velocidad del Viento',
+            'gust' => 'Ráfaga de Viento',
+            'wind_dir' => 'Dirección del Viento',
+            'dew_point' => 'Punto de rocío',
+            'wind_chill' => 'Sensación Térmica',
+            'day_rain' => 'Lluvia horaria',
+            'light' => 'Energía Solar',
+            'uvi' => 'Índice Ultravioleta',
+        ];
+
+        $dataTypes = [];
+        foreach ($fields as $field) {
+            $dataTypes[$field] = isset($labels[$field]) ? $labels[$field] : $field;
+        }
+
+        //$dataTypes = array_combine($fields, $fields);
     
         $this->set(compact('startDate', 'endDate', 'selectedDataType', 'dataLabels', 'dataValues', 'data', 'dataTypes'));
     }

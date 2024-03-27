@@ -52,19 +52,19 @@ class WeatherDataTable extends Table
     {
         $validator
             ->dateTime('time')
-            ->allowEmptyDateTime('time');
+            ->allowEmptyDateTime('time');   //NO
 
         $validator
             ->integer('intervalo')
-            ->allowEmptyString('intervalo');
+            ->allowEmptyString('intervalo'); //NO
 
         $validator
             ->numeric('indoor_temp')
-            ->allowEmptyString('indoor_temp');
+            ->allowEmptyString('indoor_temp'); //NO
 
         $validator
             ->integer('indoor_hum')
-            ->allowEmptyString('indoor_hum');
+            ->allowEmptyString('indoor_hum'); //NO
 
         $validator
             ->numeric('outdoor_temp')
@@ -76,7 +76,7 @@ class WeatherDataTable extends Table
 
         $validator
             ->numeric('rel_pres')
-            ->allowEmptyString('rel_pres');
+            ->allowEmptyString('rel_pres'); //NO
 
         $validator
             ->numeric('abs_pres')
@@ -105,19 +105,19 @@ class WeatherDataTable extends Table
 
         $validator
             ->numeric('hour_rain')
-            ->allowEmptyString('hour_rain');
+            ->allowEmptyString('hour_rain'); 
 
         $validator
             ->numeric('day_rain')
-            ->allowEmptyString('day_rain');
+            ->allowEmptyString('day_rain'); //NO
 
         $validator
             ->numeric('week_rain')
-            ->allowEmptyString('week_rain');
+            ->allowEmptyString('week_rain'); //NO
 
         $validator
             ->numeric('month_rain')
-            ->allowEmptyString('month_rain');
+            ->allowEmptyString('month_rain'); //NO
 
         $validator
             ->numeric('light')

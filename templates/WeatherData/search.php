@@ -38,7 +38,7 @@
                 <th scope="col"> Humedad Exterior</th>
                 <th scope="col"> Velociad del Viento</th>
                 <!--th> Ráfaga del Viento</th-->   
-                <th scope="col"> Gust</th>
+                <th scope="col"> Ráfaga de Viento</th>
                 <th scope="col"> Dirección del Viento</th>
                 <th scope="col"> Punto de Rocío</th>
                 <th scope="col"> Sensación Térmica</th> 

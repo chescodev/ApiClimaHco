@@ -26,29 +26,31 @@
 
     <!-- Aquí puedes mostrar la tabla o el gráfico según los datos seleccionados -->
 
-    <div class="col-md-6">
-        <canvas id="dataChart" width="400" height="200"></canvas>
-    </div>
+    <div class="datos">
+        <div class="col-md-6">
+            <canvas id="dataChart" width="400" height="200"></canvas>
+        </div>
 
-    <?php if (!empty($data)) : ?>
-        <h3>Datos del <?= $startDate ?> al <?= $endDate ?></h3>
-        <table class="table table-hover">
-            <thead class="thead-dark">
-                <tr class="header">
-                    <th scope="col">Fecha y Hora</th>
-                    <th scope="col"><?= ucfirst($selectedDataType) ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($data as $item) : ?>
-                    <tr>
-                        <td><?= $item->time->format('Y-m-d H:i:s') ?></td>
-                        <td><?= $item->$selectedDataType ?></td>
+        <?php if (!empty($data)) : ?>
+            <h3>Datos del <?= $startDate ?> al <?= $endDate ?></h3>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr class="header">
+                        <th scope="col">Fecha y Hora</th>
+                        <th scope="col"><?= ucfirst($selectedDataType) ?></th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $item) : ?>
+                        <tr>
+                            <td><?= $item->time->format('Y-m-d H:i:s') ?></td>
+                            <td><?= $item->$selectedDataType ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
 
     <script>
         var ctxData = document.getElementById('dataChart').getContext('2d');
@@ -80,3 +82,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
+<style>
+
+    table {
+        max-width: 30%;
+    }
+
+    .datos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
