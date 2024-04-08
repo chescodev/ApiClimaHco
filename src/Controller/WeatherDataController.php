@@ -407,14 +407,14 @@ class WeatherDataController extends AppController
     }
     
 
-    
-    
-    
-    
-    
-    
+    public function lastData() {
+        $lastData = $this->WeatherData->find()
+        ->order(['time' =>'desc'])
+        ->first();
 
-
+        $this->set(compact('lastData'));
+    }
+        
     /*
     public function lightChartData()
     {

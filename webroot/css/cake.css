@@ -79,9 +79,18 @@ th {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem;
-    margin: 0 auto 2rem;
+    padding-top: 20px ;
+    padding-bottom: 20px; 
+    margin-left: 2rem;
+    margin-right: 2rem;
+
 }
+
+.img-senati {
+    width: 100px;
+    height: 30px;
+}
+
 .top-nav-title a {
     font-size: 2.4rem;
     color: #d33c43;
@@ -89,8 +98,19 @@ th {
 .top-nav-title span {
     color: #404041;
 }
+
+.top-nav-links {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+
+}
+
 .top-nav-links a {
     margin: 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 .top-nav-title a,
 .top-nav-links a {

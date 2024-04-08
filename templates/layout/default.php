@@ -34,10 +34,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
+    <nav class="flex justify-between items-center py-5 mx-8">
+        <div class="tflex items-center gap-x-10 ocpacity-80">
             <a href="http://localhost:8765/WeatherData/" target="_self" rel="noopener">
-                <img alt="Senati" src="<?= $this->Url->webroot('img/senati.svg') ?>" width="150" />
+                <img class="img-senati" alt="Senati" src="<?= $this->Url->webroot('img/senati.svg') ?>" width="150" />
             </a>
         </div>
         <div class="top-nav-links">
@@ -47,8 +47,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </nav>
     <main class="main">
         <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid justify-content-center"> <!-- Agrega la clase justify-content-center para centrar horizontalmente -->
+        <!--nav class="navbar navbar-expand-lg navbar-dark bg-dark"-->
+    <!--div class="container-fluid justify-content-center"> 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -63,10 +63,27 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li class="nav-item">
                     <?= $this->Html->link('Filtro', ['controller' => 'WeatherData', 'action' => 'display'], ['class' => 'nav-link']) ?>
                 </li>
+                <li class="nav-item">
+                    <?= $this->Html->link('Hoy', ['controller' => 'WeatherData', 'action' => 'last_data'], ['class' => 'nav-link']) ?>
+                </li>
             </ul>
         </div>
-    </div>
-</nav>
+    </div-->
+    <nav class="links flex flex-col items-center justify-center w-full text-center gap-x-5 md:flex-row">
+        <a class="links-item">
+            <?= $this->Html->link('Buscar Datos', ['controller' => 'WeatherData', 'action' => 'search'], ['class' => 'nav-link']) ?>
+        </a>
+        <a class="links-item">
+            <?= $this->Html->link('Gráficos', ['controller' => 'WeatherData', 'action' => 'graphics'], ['class' => 'nav-link']) ?>
+        </li>
+        <a class="links-item">
+            <?= $this->Html->link('Filtro', ['controller' => 'WeatherData', 'action' => 'display'], ['class' => 'nav-link']) ?>
+        </a>
+        <a class="links-item text-red">
+            <?= $this->Html->link('Hoy', ['controller' => 'WeatherData', 'action' => 'last_data'], ['class' => 'nav-link']) ?>
+        </a>
+    </nav>
+<!--/nav-->
         <div class="container">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
@@ -76,3 +93,24 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </footer>
 </body>
 </html>
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<style>
+    .links {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        width: 100%;
+        align-items: center;
+        background-color: white;
+    }
+
+    .links-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+
+</style>
