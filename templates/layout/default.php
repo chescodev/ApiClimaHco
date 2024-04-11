@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -18,6 +19,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,91 +28,53 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
-    
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <nav class="flex justify-between items-center py-5 mx-8">
-        <div class="tflex items-center gap-x-10 ocpacity-80">
-            <a href="http://localhost:8765/WeatherData/" target="_self" rel="noopener">
-                <img class="img-senati" alt="Senati" src="<?= $this->Url->webroot('img/senati.svg') ?>" width="150" />
-            </a>
-        </div>
-        <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Login</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">Register</a>
-        </div>
-    </nav>
-    <main class="main">
-        <!-- Navigation Bar -->
-        <!--nav class="navbar navbar-expand-lg navbar-dark bg-dark"-->
-    <!--div class="container-fluid justify-content-center"> 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <?= $this->Html->link('Buscar Datos', ['controller' => 'WeatherData', 'action' => 'search'], ['class' => 'nav-link']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('Gráficos', ['controller' => 'WeatherData', 'action' => 'graphics'], ['class' => 'nav-link']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('Filtro', ['controller' => 'WeatherData', 'action' => 'display'], ['class' => 'nav-link']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link('Hoy', ['controller' => 'WeatherData', 'action' => 'last_data'], ['class' => 'nav-link']) ?>
-                </li>
-            </ul>
-        </div>
-    </div-->
-    <nav class="links flex flex-col items-center justify-center w-full text-center gap-x-5 md:flex-row">
-        <a class="links-item">
-            <?= $this->Html->link('Buscar Datos', ['controller' => 'WeatherData', 'action' => 'search'], ['class' => 'nav-link']) ?>
-        </a>
-        <a class="links-item">
-            <?= $this->Html->link('Gráficos', ['controller' => 'WeatherData', 'action' => 'graphics'], ['class' => 'nav-link']) ?>
-        </li>
-        <a class="links-item">
-            <?= $this->Html->link('Filtro', ['controller' => 'WeatherData', 'action' => 'display'], ['class' => 'nav-link']) ?>
-        </a>
-        <a class="links-item text-red">
-            <?= $this->Html->link('Hoy', ['controller' => 'WeatherData', 'action' => 'last_data'], ['class' => 'nav-link']) ?>
-        </a>
-    </nav>
-<!--/nav-->
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
-</body>
-</html>
-<script src="https://cdn.tailwindcss.com"></script>
 
+<body>
+    <header class="flex items-center justify-between py-0 mx-8">
+        <section class="flex items-center gap-x-10 opacity-80">
+            <a href="/www.senati.pe">
+                <img src="<?= $this->Url->webroot('img/senati.svg') ?>" alt="Logo de Senati" class="rounded-full w-20 h-20 cursor-pointer">
+            </a>
+        </section>
+
+        <section class="flex flex-row justify-center content-between w-full text-center items-center">
+            <a class="">
+                <?= $this->Html->link('Hoy', ['controller' => 'WeatherData', 'action' => 'last_data'], ['class' => 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded']) ?>
+            </a>
+            <a class="">
+                <?= $this->Html->link('Buscar Datos', ['controller' => 'WeatherData', 'action' => 'search'], ['class' => 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded']) ?>
+            </a>
+            <a class="">
+                <?= $this->Html->link('Gráficos', ['controller' => 'WeatherData', 'action' => 'graphics'], ['class' => 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded']) ?>
+            </a>
+            <a class="">
+                <?= $this->Html->link('Filtro', ['controller' => 'WeatherData', 'action' => 'display'], ['class' => 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded']) ?>
+            </a>
+        </section>
+
+        <section class="flex flex-row justify-center gap-x-5 opacity-80">
+            <a href="/" class="text-black cursor-pointer hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2 hover:shadow-lg transition-all duration-200 ease-in-out hover:scale-70 scale-90 gap-x-2 opacity-90 hover:opacity-100">
+                Login
+            </a>
+            <a href="/" class="text-black cursor-pointer hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2 hover:shadow-lg transition-all duration-200 ease-in-out hover:scale-70 scale-90 gap-x-2 opacity-90 hover:opacity-100">
+                Regístrate
+            </a>
+        </section>
+    </header>
+
+    <div class="container">
+        <?= $this->Flash->render() ?>
+        <?= $this->fetch('content') ?>
+    </div>
+
+</body>
+
+</html>
 
 <style>
-    .links {
-        display: flex;
-        flex-direction: row;
-        text-align: center;
-        width: 100%;
-        align-items: center;
-        background-color: white;
+    a {
+        text-decoration: none;
     }
-
-    .links-item {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-
 </style>

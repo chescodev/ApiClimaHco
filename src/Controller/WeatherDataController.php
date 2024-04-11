@@ -415,45 +415,8 @@ class WeatherDataController extends AppController
         $this->set(compact('lastData'));
     }
         
-    /*
-    public function lightChartData()
-    {
-        $lightData = $this->WeatherData->find()
-            ->select(['time', 'light'])
-            ->toArray();
-
-        $dailyLight = [];
-        foreach ($lightData as $data) {
-            $date = $data->time->format('Y-m-d');
-            $dailyLight[$date][] = $data->light;
-        }
-
-        $averageLight = [];
-        foreach ($dailyLight as $date => $lightValues) {
-            $averageLight[$date] = array_sum($lightValues) / count($lightValues);
-        }
-
-        $labels = array_keys($averageLight);
-        $data = array_values($averageLight);
-
-        $this->set(compact('labels', 'data'));
-    }*/
-
-
 }
 
-
-/* 
-    *** TODO ***
-    * Arreglar etilos en todas las paginas
-    * Definir que paginas se usaran y no ir inventando en el camino
-    * Ver tema de graficos
-    * Agregar un segundo filtro por fechas
-    * Agregar login y register
-    * Ver si se puede reutilizar codigo con componentes
-    
-
-*/
 
 
 
