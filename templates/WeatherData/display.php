@@ -8,23 +8,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <?= $this->Form->create(null, ['url' => ['action' => 'display'], 'class' => 'date-picker']) ?>
-        <div class="form-group">
-            <label for="startDate">Fecha de Inicio:</label>
-            <?= $this->Form->input('start_date', ['type' => 'date', 'class' => 'form-control']) ?>
+
+    <?= $this->Form->create(null, ['url' => ['action' => 'display'], 'class' => 'flex items-center justify-center']) ?>
+        <div class="relative">
+            <?= $this->Form->input('start_date', ['type' => 'date', 'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5', 'placeholder' => 'Seleccionar Fecha Inicial']) ?>
         </div>
-        <div class="form-group">
-            <label for="endDate">Fecha de Fin:</label>
-            <?= $this->Form->input('end_date', ['type' => 'date', 'class' => 'form-control']) ?>
+        <span class="mx-4 text-gray-500">hasta</span>
+        <div class="relative">
+            <?= $this->Form->input('end_date', ['type' => 'date', 'class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5', 'placeholder' => 'Seleccionar Fecha final']) ?>
         </div>
-        <div class="form-group">
-            <label for="dataType">Seleccionar tipo de datos:</label>
-            <?= $this->Form->select('data_type', $dataTypes, ['class' => 'form-control']) ?>
+        <div class="relative mx-4">
+            <?= $this->Form->select('data_type', $dataTypes, ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                focus:ring-blue-500 focus:border-blue-500 block w-full ps-3 py-2.5', 'placeholder' => 'Seleccionar Tipo de Dato']) ?>
         </div>
-        <?= $this->Form->submit('Buscar', ['class' => 'btn btn-primary']) ?>
+        <div class="relative">
+            <?= $this->Form->button('Buscar', ['class' => 'py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg 
+            border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100']) ?>
+        </div>
     <?= $this->Form->end() ?>
 
-    <!-- Aquí puedes mostrar la tabla o el gráfico según los datos seleccionados -->
 
     <div class="datos">
         <div class="col-md-6">

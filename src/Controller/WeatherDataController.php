@@ -391,7 +391,7 @@ class WeatherDataController extends AppController
             'wind_dir' => 'Dirección del Viento',
             'dew_point' => 'Punto de rocío',
             'wind_chill' => 'Sensación Térmica',
-            'day_rain' => 'Lluvia horaria',
+            'hour_rain' => 'Lluvia horaria',
             'light' => 'Energía Solar',
             'uvi' => 'Índice Ultravioleta',
         ];

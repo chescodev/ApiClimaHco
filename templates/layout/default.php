@@ -32,14 +32,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 </head>
 
 <body>
-    <header class="flex items-center justify-between py-0 mx-8">
+    <header class="flex items-center justify-between mb-2 py-0 border-2 border-black-500/50">
         <section class="flex items-center gap-x-10 opacity-80">
             <a href="/www.senati.pe">
                 <img src="<?= $this->Url->webroot('img/senati.svg') ?>" alt="Logo de Senati" class="rounded-full w-20 h-20 cursor-pointer">
             </a>
         </section>
 
-        <section class="flex flex-row justify-center content-between w-full text-center items-center">
+        <section class="flex flex-row justify-center gap-x-3 content-between w-full text-center items-center">
             <a class="">
                 <?= $this->Html->link('Hoy', ['controller' => 'WeatherData', 'action' => 'last_data'], ['class' => 'bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-black py-2 px-4 border border-blue-500 hover:border-transparent rounded']) ?>
             </a>
@@ -54,7 +54,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             </a>
         </section>
 
-        <section class="flex flex-row justify-center gap-x-5 opacity-80">
+        <section class="flex flex-row gap-x-1 opacity-80">
             <a href="/" class="text-black cursor-pointer hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 mr-2 mb-2 hover:shadow-lg transition-all duration-200 ease-in-out hover:scale-70 scale-90 gap-x-2 opacity-90 hover:opacity-100">
                 Login
             </a>
@@ -64,7 +64,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </section>
     </header>
 
-    <div class="container">
+    <div class="mx-5">
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
     </div>
@@ -77,4 +77,5 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     a {
         text-decoration: none;
     }
+
 </style>
