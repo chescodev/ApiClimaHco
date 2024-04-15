@@ -1,98 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gráficos de Luz</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
-    <nav>
-        LINK HACIA OTROS LUGARES
-    </nav>
-
-
-    <div class="container">
-        <h2>Gráficos de Luz</h2>
-        <?= $this->Form->create(null, ['url' => ['action' => 'graphics'], 'class' => 'date-picker']) ?>
-            <div class="form-group">
-                <label for="start_date">Fecha de Inicio:</label>
-                <?= $this->Form->input('start_date', ['type' => 'date', 'class' => 'form-control']) ?>
-            </div>
-            <div class="form-group">
-                <label for="end_date">Fecha de Fin:</label>
-                <?= $this->Form->input('end_date', ['type' => 'date', 'class' => 'form-control']) ?>
-            </div>
-            <?= $this->Form->submit('Mostrar Gráfico', ['class' => 'btn btn-primary']) ?>
-        <?= $this->Form->end() ?>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="outTempChart" width="400" height="200"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="dewPointChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="windSpeedChart" width="400" height="200"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="windGustChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="windDirectionChart" width="400" height="200"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="lightChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="uviChart" width="400" height="200"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="absPresChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="dayRainChart" width="400" height="200"></canvas>
-            </div>
-        </div>
+<main class="flex flex-col items-center space-y-4">
+    <span class="text-2xl font-bold">Seleccionar una Fecha</span>
+    <?= $this->Form->create(null, ['url' => ['action' => 'graphics'], 'class' => 'flex items-center justify-center flex-col']) ?>
+    <div class="flex items-center space-x-4 mb-2">
+        <?= $this->Form->input('start_date', ['type' => 'date', 'class' => 'flex h-10 border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[170px] px-3 py-2 border rounded-md']) ?>
+        <?= $this->Form->input('end_date', ['type' => 'date', 'class' => 'flex h-10 border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[170px] px-3 py-2 border rounded-md']) ?>
     </div>
+    <?= $this->Form->submit('Mostrar Gráfico', ['class' => 'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-950 text-white hover:bg-blue-900 w-[150px] h-10 px-4 py-2 text-center']) ?>
+    <?= $this->Form->end() ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        var ctx = document.getElementById('lightChart').getContext('2d');
-        var lightChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?= json_encode($lightLabels) ?>,
-                datasets: [{
-                    label: 'Intensidad de luz',
-                    data: <?= json_encode($lightValues) ?>,
-                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                    borderColor: 'rgba(255, 206, 86, 1)',
-                    borderWidth: 1
+    <section class="w-full max-w-full overflow-auto grid grid-cols-1 md:grid-cols2 lg:grid-cols-3 gap-4 p-4">
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="outTempChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="dewPointChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="windSpeedChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="windGustChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="windDirectionChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="lightChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="uviChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="absPresChart" width="400" height="200"></canvas>
+        </div>
+        <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
+            <canvas class="p-2" id="dayRainChart" width="400" height="200"></canvas>
+        </div>
+    </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('lightChart').getContext('2d');
+    var lightChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($lightLabels) ?>,
+            datasets: [{
+                label: 'Intensidad de luz',
+                data: <?= json_encode($lightValues) ?>,
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
             }
-        });
-    </script>
-    <script>
+        }
+    });
+</script>
+<script>
     var ctxUvi = document.getElementById('uviChart').getContext('2d');
     var uviChart = new Chart(ctxUvi, {
         type: 'line',
@@ -167,7 +139,6 @@
         }
     });
 </script>
-
 <script>
     var ctxWindSpeed = document.getElementById('windSpeedChart').getContext('2d');
     var windSpeedChart = new Chart(ctxWindSpeed, {
@@ -193,7 +164,6 @@
         }
     });
 </script>
-
 <script>
     var ctxWindGust = document.getElementById('windGustChart').getContext('2d');
     var windGustChart = new Chart(ctxWindGust, {
@@ -219,7 +189,6 @@
         }
     });
 </script>
-
 <script>
     var ctxWindDirection = document.getElementById('windDirectionChart').getContext('2d');
     var windDirectionChart = new Chart(ctxWindDirection, {
@@ -245,7 +214,6 @@
         }
     });
 </script>
-
 <script>
     var ctxAbsPres = document.getElementById('absPresChart').getContext('2d');
     var absPresChart = new Chart(ctxAbsPres, {
@@ -271,7 +239,6 @@
         }
     });
 </script>
-
 <script>
     var ctxDayRain = document.getElementById('dayRainChart').getContext('2d');
     var dayRainChart = new Chart(ctxDayRain, {
@@ -297,6 +264,3 @@
         }
     });
 </script>
-
-</body>
-</html>
