@@ -8,7 +8,7 @@
     <?= $this->Form->submit('Mostrar Gráfico', ['class' => 'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-950 text-white hover:bg-blue-900 w-[150px] h-10 px-4 py-2 text-center']) ?>
     <?= $this->Form->end() ?>
 
-    <section class="w-full max-w-full overflow-auto grid grid-cols-1 md:grid-cols2 lg:grid-cols-3 gap-4 p-4">
+    <section class="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div class="rounded-lg border bg-card shadow-sm h-full w-full max-w-md">
             <canvas class="p-2" id="outTempChart" width="400" height="200"></canvas>
         </div>
